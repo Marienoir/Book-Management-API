@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -7,7 +5,7 @@ import db from './db';
 import route from './router';
 
 dotenv.config();
-const port = process.env.GIF_API_PORT || 5000;
+const port = process.env.BMS_API_PORT || 5000;
 
 const app = express();
 
@@ -24,13 +22,11 @@ app.use(
   }),
 );
 
-
-
 app.get('/', (req, res) => {
   res.status(200).json({
     code: 200,
     status: 'Success',
-    message: 'Welcome to GIF',
+    message: 'Welcome to Book Managament API',
   });
 });
 
