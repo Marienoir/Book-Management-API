@@ -8,7 +8,7 @@ const pg = pgp({
     promiseLib: promise,
     noWarnings: true
 });
-const db = pg(process.env.GIF_API_DATABASE_URL);
+const db = pg(process.env.BMS_API_DATABASE_DEV_URL);
 
 
 module.exports = db

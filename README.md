@@ -1,0 +1,11 @@
+## User story:
+- User can add a book along with its details like author, year, ISBN etc.
+- User can fetch a book using the name of the author or title of the book.
+- User can fetch all books belonging to a particular category
+- User can update a book’s details.
+- User can delete a book along with its details.
+- User can add a comment / review a book.
+- User can see all comments for a specific book.
+- User can see the book with the highest/lowest number of comments
+- User can create an Admin
+- Admin user can regulate comments (delete irrelevant comments)

@@ -1,0 +1,12 @@
+{
+    "development": {
+      "ENV": "BMS_API_DATABASE_DEV_URL"
+    },
+    "test": {
+      "ENV": "BMS_API_DATABASE_DEV_URL"
+    },
+    "defaultEnv": {
+      "ENV": "BMS_API_NODE_ENV"
+    },
+    "sql-file": true
+  }
