@@ -1,2 +1,2 @@
 /* Replace with your SQL commands */
-DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS users;
