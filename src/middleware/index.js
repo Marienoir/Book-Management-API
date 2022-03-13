@@ -1,4 +1,4 @@
-import * as services from '../services';
+import * as services from '../services/bookServices';
 
 export const validateInput = (data, type) => async (req, res, next) => {
   try {
@@ -55,6 +55,23 @@ export const checkIfBookExistsByCategory = async (req, res, next) => {
     const data = await services.getBooksByCategory(category);
     
     if (data.length === 0) {
+      return res.status(404).json({
+        code: 404,
+        message: "Book unavailable",
+      });
+    }
+    return next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkIfBookExistsById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await services.getBookById(id);
+
+    if (!data) {
       return res.status(404).json({
         code: 404,
         message: "Book unavailable",

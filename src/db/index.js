@@ -10,5 +10,4 @@ const pg = pgp({
 });
 const db = pg(process.env.BMS_API_DATABASE_DEV_URL);
 
-
 module.exports = db
