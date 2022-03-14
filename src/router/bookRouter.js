@@ -39,12 +39,12 @@ router.patch(
 router.delete(
     '/:id', 
     Utils.verifyToken('user'),
-    // Middleware.checkIfBookExistsById,
+    Middleware.checkIfBookExistsById,
     Controller.deleteABook
 );
 
 router.patch(
-    '/:id', 
+    '/review/:id', 
     Utils.verifyToken('user'),
     Middleware.validateInput(reviewBookSchema, 'body'),
     Middleware.checkIfBookExistsById,
@@ -52,25 +52,25 @@ router.patch(
 );
 
 router.get(
-    '/:id', 
+    '/review/:id', 
     Utils.verifyToken('user'),
     Middleware.checkIfBookExistsById,
     Controller.getCommentOfABook
 );
 
 router.get(
-    '/:id', 
+    '/review/count/:id', 
     Utils.verifyToken('user'),
     Middleware.checkIfBookExistsById,
     Controller.countCommentOfABook
 );
 
 router.delete(
-    '/:id', 
+    '/review/:id', 
     Utils.verifyToken('admin'),
     Utils.checkIfUserIsAdmin,
     Middleware.checkIfBookExistsById,
-    UserController.deleteCommentOfABook
+    Controller.deleteCommentOfABook
 );
 
 

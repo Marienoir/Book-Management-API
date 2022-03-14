@@ -55,7 +55,7 @@ export const updateBookDetails = async (req, res, next) => {
             data: updatedBook,
         });
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -78,21 +78,23 @@ export const reviewBookById = async (req, res, next) => {
     try {
         const book = await Bookservices.getBookById(req.params.id);
         const { id } = book;
-        const reviewedBook = await Bookservices.reviewABook(id, req.body);
-
+        req.body.bookId = id;
+        req.body.no_of_comments = 1;
+        const reviewedBook = await Bookservices.reviewABook(req.body);
+        await Bookservices.countABookComment(req.body,id);
         return res.status(200).json({
             code: 200,
             message: 'review added successfully',
             data: reviewedBook,
         });
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
 export const getCommentOfABook = async (req, res, next) => {
     try {
-        const { id } = req.query;
+        const { id } = req.params;
         const data = await Bookservices.getABookComment(id);
 
         return res.status(200).json({
@@ -106,12 +108,26 @@ export const getCommentOfABook = async (req, res, next) => {
 
 export const countCommentOfABook = async (req, res, next) => {
     try {
-        const { id } = req.query;
-        const data = await Bookservices.countABookComment(id);
+        const { id } = req.params;
+        const data = await Bookservices.getCountOfBookComment(id);
 
         return res.status(200).json({
             code: 200,
             data,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteCommentOfABook = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        await Bookservices.deleteABookComment(id);
+
+        return res.status(200).json({
+            code: 200,
+            message: 'comment deleted successfully',
         });
     } catch (error) {
         next(error);

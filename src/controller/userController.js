@@ -18,6 +18,23 @@ export const addUser = async (req, res, next) => {
     }
 };
 
+export const addAdmin = async (req, res, next) => {
+    try {
+        const { body } = req;
+        const admin = await UserServices.addAdmin(body);
+        const token = await Utils.generateToken(admin);
+        
+        return res.status(201).json({
+            code: 201,
+            message: 'admin created successfully',
+            admin,
+            token
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const deleteCommentOfABook = async (req, res, next) => {
     try {
         const user = await UserServices.getUserById(req.params.id);

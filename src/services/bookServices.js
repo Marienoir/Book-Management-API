@@ -9,7 +9,7 @@ export const addBook = async (body) => {
 };
 
 export const getBookById = async (id) => {
-    return db.one(bookQueries.getBookById, [id])
+    return db.oneOrNone(bookQueries.getBookById, [id])
 };
 
 export const getBooks = async (name, author) => {
@@ -21,21 +21,32 @@ export const getBooksByCategory = async (category) => {
 };
 
 export const updateABook = async (id, body) => {
-    return db.one(bookQueries.updateBookById, [body.name, body.author, body.quantity, body.price, body.ISBN, body.category, id]);
+    return db.oneOrNone(bookQueries.updateBookById, [body.name, body.author, body.quantity, body.price, body.ISBN, body.category, id]);
 };
 
 export const deleteABook = async (id) => {
     return db.none(bookQueries.deleteBookById, [id]);
 };
 
-export const reviewABook = async (id, body) => {
-    return db.one(bookQueries.reviewBookById, [body.comment, id]);
+export const reviewABook = async (body) => {
+    const payload = [
+        body.bookId, body.comment,
+    ];
+    return db.one(bookQueries.reviewBookById, payload);
 };
 
 export const getABookComment = async (id) => {
     return db.any(bookQueries.getAllCommentsOfABook, [id])
 };
 
-export const countABookComment = async (id) => {
-    return db.one(bookQueries.countCommentsOfABook, [id])
+export const countABookComment = async (body,id) => {
+    return db.any(bookQueries.countCommentsOfABook,[body.no_of_comments, id])
+};
+
+export const getCountOfBookComment = async (id) => {
+    return db.any(bookQueries.getCountCommentsOfABook, id)
+};
+
+export const deleteABookComment = async (id) => {
+    return db.none(bookQueries.deleteBookCommentById, [id])
 };
