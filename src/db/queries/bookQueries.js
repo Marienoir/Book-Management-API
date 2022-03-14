@@ -80,33 +80,41 @@ const bookQueries = {
         WHERE id=$1
       `,
       reviewBookById: `
-      UPDATE books
-      SET 
-          comment=$1,
-          updated_at=NOW()
-      WHERE id=$7 
+      INSERT INTO reviews (
+        bookId,
+        comment,
+        created_at
+      ) VALUES($1, $2, NOW())
       RETURNING 
-        id,
-        name,
-        author,
-        quantity,
-        price,
-        ISBN,
-        category,
-        comment
+      bookId,
+      comment
     `,
     getAllCommentsOfABook: `
     SELECT
       comment
-    FROM books
-    WHERE id = $1
+    FROM reviews
+    WHERE bookId = $1;
     `,
     countCommentsOfABook: `
-    COUNT(*)
-      comment
-    FROM books
-    WHERE id = $1
+    UPDATE books
+    SET no_of_comments = no_of_comments + 1
+    WHERE id =$2
+    RETURNING 
+    name,
+    no_of_comments
     `,
+    getCountCommentsOfABook: `
+    SELECT
+    name,
+    no_of_comments
+    FROM books
+    WHERE id = $1;
+    `,
+    deleteBookCommentById: `
+    UPDATE books 
+    SET comments= comments - 1
+    WHERE id=$1
+  `,
     };
   
   export default bookQueries;
