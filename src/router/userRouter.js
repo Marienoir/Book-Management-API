@@ -14,7 +14,7 @@ router.post(
 
 router.post(
     '/admin', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.validateInput(addUserSchema, 'body'),
     Controller.addAdmin
 );

@@ -1,6 +1,5 @@
 import express from 'express';
 import * as Controller from '../controller/bookController';
-import * as UserController from '../controller/userController';
 import * as Utils from '../utils/index';
 import * as Middleware from '../middleware';
 import { addBookSchema, reviewBookSchema, updateBookSchema } from '../validation/bookSchema';
@@ -10,27 +9,27 @@ const router = express.Router();
 router.post(
     '/', 
     Middleware.validateInput(addBookSchema, 'body'),
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Controller.addBook
 );
 
 router.get(
     '/', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.checkIfBookExistsByNameOrTitle,
     Controller.getBooksByAuthorOrTitle
 );
 
 router.get(
     '/category', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.checkIfBookExistsByCategory,
     Controller.getBooksByCategory
 );
 
 router.patch(
     '/:id', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.validateInput(updateBookSchema, 'body'),
     Middleware.checkIfBookExistsById,
     Controller.updateBookDetails
@@ -38,14 +37,14 @@ router.patch(
 
 router.delete(
     '/:id', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.checkIfBookExistsById,
     Controller.deleteABook
 );
 
 router.patch(
     '/review/:id', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.validateInput(reviewBookSchema, 'body'),
     Middleware.checkIfBookExistsById,
     Controller.reviewBookById
@@ -53,25 +52,31 @@ router.patch(
 
 router.get(
     '/review/:id', 
-    Utils.verifyToken('user'),
-    Middleware.checkIfBookExistsById,
+    Utils.verifyToken,
+    // Middleware.checkIfBookExistsById,
+    Middleware.checkIfBookIsReviewed,
     Controller.getCommentOfABook
 );
 
 router.get(
     '/review/count/:id', 
-    Utils.verifyToken('user'),
+    Utils.verifyToken,
     Middleware.checkIfBookExistsById,
     Controller.countCommentOfABook
 );
 
 router.delete(
     '/review/:id', 
-    Utils.verifyToken('admin'),
+    Utils.verifyToken,
     Utils.checkIfUserIsAdmin,
-    Middleware.checkIfBookExistsById,
+    Middleware.checkIfBookIsReviewed,
     Controller.deleteCommentOfABook
 );
 
+router.get(
+    '/comment', 
+    Utils.verifyToken,
+    Controller.getHighestOrLowestComments
+);
 
 export default router;

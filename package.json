@@ -6,6 +6,8 @@
   "scripts": {
     "start": "--exec babel-node src/index.js",
     "dev": "nodemon --exec babel-node src/index.js",
+    "migrate-up": "db-migrate up",
+    "migrate-down": "db-migrate down",
     "test": "mocha test --exit --timeout=150000"
   },
   "keywords": [],

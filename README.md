@@ -44,5 +44,10 @@ OR
 npm run dev
 ```
 
+### Run Migration
+```bash
+npm run migrate-up
+npm run migrate-down
+```
 ### Documentation
 https://documenter.getpostman.com/view/14754677/UVsJw6rj
