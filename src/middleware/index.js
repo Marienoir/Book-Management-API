@@ -53,7 +53,7 @@ export const checkIfBookExistsByCategory = async (req, res, next) => {
   try {
     const { category } = req.query;
     const data = await services.getBooksByCategory(category);
-    
+
     if (data.length === 0) {
       return res.status(404).json({
         code: 404,
@@ -77,6 +77,24 @@ export const checkIfBookExistsById = async (req, res, next) => {
         message: "Book unavailable",
       });
     }
+    return next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkIfBookIsReviewed = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await services.getReviewedBookById(id);
+
+    if (!data) {
+      return res.status(404).json({
+        code: 404,
+        message: 'No reviews found',
+      });
+    }
+    req.bookId = data.bookid;
     return next();
   } catch (error) {
     next(error);

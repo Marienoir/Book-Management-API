@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   res.status(200).json({
     code: 200,
     status: 'Success',
-    message: 'Welcome to Book Managament API',
+    message: 'Welcome to Book Management API',
   });
 });
 
@@ -40,7 +40,6 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
   res.status(400).json({
     status: 'Failed',
     message: err.message,

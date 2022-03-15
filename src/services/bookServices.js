@@ -12,6 +12,10 @@ export const getBookById = async (id) => {
     return db.oneOrNone(bookQueries.getBookById, [id])
 };
 
+export const getReviewedBookById = async (id) => {
+    return db.oneOrNone(bookQueries.getReviewedBookById, [id])
+};
+
 export const getBooks = async (name, author) => {
     return db.any(bookQueries.getBooksByAuthorOrTitle, [name, author])
 };
@@ -39,8 +43,12 @@ export const getABookComment = async (id) => {
     return db.any(bookQueries.getAllCommentsOfABook, [id])
 };
 
-export const countABookComment = async (body,id) => {
-    return db.any(bookQueries.countCommentsOfABook,[body.no_of_comments, id])
+export const countABookComment = async (body, id) => {
+    return db.any(bookQueries.countCommentsOfABook, [body.no_of_comments, id])
+};
+
+export const reduceCountCommentsOfABook = async (body, id) => {
+    return db.any(bookQueries.reduceCountCommentsOfABook, [body.no_of_comments, id])
 };
 
 export const getCountOfBookComment = async (id) => {
@@ -49,4 +57,12 @@ export const getCountOfBookComment = async (id) => {
 
 export const deleteABookComment = async (id) => {
     return db.none(bookQueries.deleteBookCommentById, [id])
+};
+
+export const getLowestComments = async () => {
+    return db.oneOrNone(bookQueries.getLowestComments)
+};
+
+export const getHighestComments = async () => {
+    return db.oneOrNone(bookQueries.getHighestComments)
 };

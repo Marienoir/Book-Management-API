@@ -80,8 +80,10 @@ export const reviewBookById = async (req, res, next) => {
         const { id } = book;
         req.body.bookId = id;
         req.body.no_of_comments = 1;
+        
         const reviewedBook = await Bookservices.reviewABook(req.body);
-        await Bookservices.countABookComment(req.body,id);
+        await Bookservices.countABookComment(req.body, id);
+
         return res.status(200).json({
             code: 200,
             message: 'review added successfully',
@@ -123,11 +125,51 @@ export const countCommentOfABook = async (req, res, next) => {
 export const deleteCommentOfABook = async (req, res, next) => {
     try {
         const { id } = req.params;
+        const { bookId } = req;
         await Bookservices.deleteABookComment(id);
+
+        const book = await Bookservices.getBookById(bookId);
+        const { no_of_comments } = book;
+        req.body.no_of_comments = no_of_comments;
+        await Bookservices.reduceCountCommentsOfABook(req.body, bookId);
 
         return res.status(200).json({
             code: 200,
             message: 'comment deleted successfully',
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getHighestOrLowestComments = async (req, res, next) => {
+    try {
+        const { count } = req.query;
+        if (count === 'max') {
+            const maxCount = await Bookservices.getHighestComments();
+            return res.status(200).json({
+                code: 200,
+                maxCount
+            });
+        }
+        if (count === 'min') {
+            const minCount = await Bookservices.getLowestComments();
+            return res.status(200).json({
+                code: 200,
+                minCount
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getLowestComments = async (req, res, next) => {
+    try {
+        const comment = await Bookservices.getLowestComments();
+        return res.status(200).json({
+            code: 200,
+            comment,
         });
     } catch (error) {
         next(error);
