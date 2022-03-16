@@ -5,7 +5,7 @@ import db from './db';
 import route from './router';
 
 dotenv.config();
-const port = process.env.BMS_API_PORT || 5000;
+const port = process.env.PORT || 5000;
 
 const app = express();
 
